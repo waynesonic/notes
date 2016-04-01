@@ -1,8 +1,0 @@
-问题： 
-    文件加入gitignore不起作用
-原因：
-    **.gitignore文件只是ignore没有被staged(cached)文件，对于已经被staged文件，加入ignore文件时一定要先从staged移除。
-解决方案：
-    git rm –cached file/path/to/be/ignored。
-    git add .
-    git commit -m “fixed untracked files”

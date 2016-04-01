@@ -1,0 +1,54 @@
+问题： 
+    文件加入gitignore不起作用
+原因：
+    **.gitignore文件只是ignore没有被staged(cached)文件，对于已经被staged文件，加入ignore文件时一定要先从staged移除。
+解决方案：
+    git rm –cached file/path/to/be/ignored。
+    git add .
+    git commit -m “fixed untracked files”
+
+问题：
+    如何知道类名，通过传入方法名的方式代用这个类里面的所有方法
+解决方案：
+    public Bundle call(String method, String arg, Bundle extras) {
+
+        String prefix = "[method: " + method + "]" + " [ arg: " + arg + "]" ;
+
+        if (providerDispatcherClass == null) {
+            mProviderDispatcher = new ProviderDispatcher(getContext());
+            providerDispatcherClass = mProviderDispatcher.getClass();
+        }
+
+        try {
+            Method providerDispatcherClassMethod = providerDispatcherClass.getMethod(method, Bundle.class);
+            Object object = providerDispatcherClassMethod.invoke(mProviderDispatcher, extras);
+            if (object != null) {
+                return (Bundle) providerDispatcherClassMethod.invoke(mProviderDispatcher, extras);
+            } else {
+                return null;
+            }
+        }catch (NoSuchMethodException e) {
+            LOG.error(TAG, prefix + " invoke failed(NoSuchMethodException)", e);
+        } catch (IllegalAccessException e) {
+           LOG.error(TAG, prefix + " invoke failed(IllegalAccessException)", e);
+        } catch (IllegalArgumentException e) {
+           LOG.error(TAG, prefix + " invoke failed(IllegalArgumentException)", e);
+        } catch (InvocationTargetException e) {
+           LOG.error(TAG, prefix + " invoke failed(InvocationTargetException)", e.getTargetException());
+        } catch (Exception e) {
+           LOG.error(TAG, prefix + " invoke failed(Exception)", e);
+        } catch (Throwable e) {
+           LOG.error(TAG, prefix + " invoke failed(Throwable)", e);
+        }
+        return null;
+    }
+    
+    问题：InvocationTargetException 无法获取到真正的异常，如何处理？
+    
+    解决方案：
+       try {
+          ....
+        } catch (InvocationTargetException e) {
+           LOG.error(TAG, prefix + " invoke failed(InvocationTargetException)", e.getTargetException());
+        }
+    
