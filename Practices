@@ -1,4 +1,4 @@
-问题： 
+1，问题： 
     文件加入gitignore不起作用
 原因：
     **.gitignore文件只是ignore没有被staged(cached)文件，对于已经被staged文件，加入ignore文件时一定要先从staged移除。
@@ -7,7 +7,7 @@
     git add .
     git commit -m “fixed untracked files”
 
-问题：
+2，问题：
     如何知道类名，通过传入方法名的方式代用这个类里面的所有方法
 解决方案：
     public Bundle call(String method, String arg, Bundle extras) {
@@ -43,7 +43,7 @@
         return null;
     }
     
-    问题：InvocationTargetException 无法获取到真正的异常，如何处理？
+    3，问题：InvocationTargetException 无法获取到真正的异常，如何处理？
     
     解决方案：
        try {
@@ -51,4 +51,10 @@
         } catch (InvocationTargetException e) {
            LOG.error(TAG, prefix + " invoke failed(InvocationTargetException)", e.getTargetException());
         }
+        
+    4，问题：java中如何定义long型
     
+    解决方案：
+    public static final long CHECK_WIDGET_DURATION_TIME = 30*24*60*60*1000L;//检测间隔时间30天
+    注意后面必须增加L， 否则定义的这个long型其实是整形的赋值，而这个时候整形已经越界所以不加L, CHECK_WIDGET_DURATION_TIME会是一个负值
+    	
