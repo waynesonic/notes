@@ -57,4 +57,32 @@
     解决方案：
     public static final long CHECK_WIDGET_DURATION_TIME = 30*24*60*60*1000L;//检测间隔时间30天
     注意后面必须增加L， 否则定义的这个long型其实是整形的赋值，而这个时候整形已经越界所以不加L, CHECK_WIDGET_DURATION_TIME会是一个负值
+    
+    5,android studio 中如何调整jar包的依赖顺序？
+   
+    preBuild {
+
+        android.applicationVariants.all { variant ->
+            println  "--- " + variant.name
+        }
+
+        doFirst {
+            // JavaCompile jc = android.applicationVariants.find { it.name == 'debug' }.javaCompile
+            android.applicationVariants.all { variant ->
+                JavaCompile jc = variant.javaCompile
+                // jc.options.compilerArgs = ["-Xlint:unchecked"]
+
+                def clspath = ""
+                def tree = fileTree(dir: "fwk_libs", include: ['*.jar'])
+                tree.visit { element ->
+                    clspath = "$clspath$element.file;"
+                    // println "$element.relativePath => $element.file"
+                }
+                def beforeclasspath  = jc.options.bootClasspath;
+                println "bootClasspath before => " + jc.options.bootClasspath
+                jc.options.bootClasspath = clspath + ";" + beforeclasspath;
+                println "bootClasspath after => " + jc.options.bootClasspath
+            }
+        }
+    }
     	
