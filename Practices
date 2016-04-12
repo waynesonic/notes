@@ -59,7 +59,7 @@
     注意后面必须增加L， 否则定义的这个long型其实是整形的赋值，而这个时候整形已经越界所以不加L, CHECK_WIDGET_DURATION_TIME会是一个负值
     
     5,android studio 中如何调整jar包的依赖顺序？
-   
+    将下面的代码拷贝到项目的build.gradle文件中
     preBuild {
 
         android.applicationVariants.all { variant ->
